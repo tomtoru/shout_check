@@ -15,7 +15,6 @@ class Recoder():
         self.recode_dir = './recode_data/'
 
     def recode(self, output_file_name=""):
-        print(self.channels)
         stream = self.audio.open(
             format=self.format,
             channels=self.channels,
@@ -27,7 +26,7 @@ class Recoder():
 
         print("::start::")
         frames = []
-        for i in range(self.rate, self.chunk, self.record_time):
+        for i in range(0, int(self.rate / self.chunk * self.record_time)):
             data = stream.read(self.chunk)
             frames.append(data)
 
@@ -48,5 +47,5 @@ class Recoder():
         wf.setnchannels(self.channels)
         wf.setsampwidth(self.audio.get_sample_size(self.format))
         wf.setframerate(self.rate)
-        wf.writeframes(b''.join(frames))
+        wf.writeframes(b"".join(frames))
         wf.close()
