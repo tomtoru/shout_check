@@ -12,7 +12,7 @@ class TestRecoder(unittest.TestCase):
     def setUp(self):
         self.recode_dir = './recode_data/'
 
-    def test_run(self):
+    def test_recode(self):
         channels = 2
         rate = 44100
         chunk = 1024

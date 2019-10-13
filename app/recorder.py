@@ -15,7 +15,6 @@ class Recoder():
         self.recode_dir = './recode_data/'
 
     def recode(self, output_file_name=""):
-        print(self.channels)
         stream = self.audio.open(
             format=self.format,
             channels=self.channels,
