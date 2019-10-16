@@ -4,6 +4,8 @@ import wave
 import datetime
 import os
 
+import matplotlib.pyplot as plt
+
 
 class Recoder():
     def __init__(self, channels=1, rate=44100, chunk=1024, record_time=30):
@@ -74,6 +76,32 @@ class Recoder():
         self.stream.stop_stream()
         self.stream.close()
         self.audio.terminate()
+
+    def realtime_recode(self):
+        x = [0 for i in range(100)]
+        frames = [0 for i in range(100)]
+
+        li, = plt.plot(x, frames)
+        i = 0
+        while True:
+            self.open_stream()
+
+            i += 1
+            x.append(i)
+            x.pop(0)
+
+            data = self.stream.read(self.chunk)
+            data = np.frombuffer(data, dtype="int16") / 32768.0
+            frames.append(max(data))
+            frames.pop(0)
+
+            li.set_xdata(x)
+            li.set_ydata(frames)
+
+            plt.ylim(min(frames), max(frames))
+            plt.xlim(min(x), max(x))
+            plt.draw()
+            plt.pause(0.1)
 
     def open_stream(self):
         self.stream = self.audio.open(
